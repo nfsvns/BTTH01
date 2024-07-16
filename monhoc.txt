@@ -1,0 +1,42 @@
+#!/bin/bash
+
+declare -A monHoc=(
+    ["IT001"]="Lap trinh C"
+    ["IT002"]="Lap trinh Java"
+    ["IT003"]="Lap trinh Python"
+    ["IT004"]="Co so du lieu"
+    ["IT005"]="Mang may tinh"
+    ["IT006"]="He dieu hanh"
+    ["IT007"]="Tri tue nhan tao"
+    ["IT008"]="An toan thong tin"
+)
+
+echo "Mời bạn nhập họ và tên không dấu"
+read name
+
+name=$(echo $name | xargs)
+
+thuMuc=$(echo $name | tr ' ' '_')
+
+mkdir "$thuMuc"
+
+if [ $? -eq 0 ]; then
+    echo "Đã tạo thư mục: $thuMuc"
+else
+    echo "Đã có lỗi"
+    exit 1
+fi
+
+cd "$thuMuc"
+
+for maMon in "${!monHoc[@]}"; do
+    tenMon="${monHoc[$maMon]}"
+    tenThuMuc="${maMon}_$(echo $tenMon | tr ' ' '_')"
+    mkdir "$tenThuMuc"
+
+    if [ $? -eq 0 ]; then
+        echo "Đã tạo thư mục môn học: $maMon - $tenMon"
+    else
+        echo "Có lỗi xảy ra khi tạo thư mục cho môn $maMon - $tenMon"
+    fi
+done
